@@ -23,11 +23,10 @@ public class Player : MonoBehaviour
         Horizontal = Input.GetAxis("Horizontal");
         MarioJump = Input.GetAxis("Jump");
 
-        Rb.velocity = new Vector2(Horizontal * Speed, Rb.velocity.y);
-        Rb.velocity = new Vector2(Rb.velocity.x, MarioJump * JumpForce);
+        Rb.velocity = new Vector2(Horizontal * Speed, MarioJump * JumpForce);
 
         Animator.SetFloat("moveX", Mathf.Abs(Horizontal));
-        Animator.SetFloat("moveY", Mathf.Abs(MarioJump));
+        Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));
 
         if ((Horizontal > 0 && !MarioFlip) || (Horizontal < 0 && MarioFlip))
         {
