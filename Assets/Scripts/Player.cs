@@ -4,38 +4,35 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float speed = 10f;
-    private Rigidbody2D rb;
-    public float horizontal;
-    private bool flip = true;
+    private Rigidbody2D Rb;
+    private bool MarioFlip = true;
+    public float Speed = 10f;
+    public float JumpForce = 10f;
+    public float Horizontal;
+    public float MarioJump;
+    public Animator Animator;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        Rb = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
+        Horizontal = Input.GetAxis("Horizontal");
+        MarioJump = Input.GetAxis("Jump");
 
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        Rb.velocity = new Vector2(Horizontal * Speed, Rb.velocity.y);
+        Rb.velocity = new Vector2(Rb.velocity.x, MarioJump * JumpForce);
 
-        if (horizontal > 0 && !flip)
+        Animator.SetFloat("moveX", Mathf.Abs(Horizontal));
+        Animator.SetFloat("moveY", Mathf.Abs(MarioJump));
+
+        if ((Horizontal > 0 && !MarioFlip) || (Horizontal < 0 && MarioFlip))
         {
-            Flip();
+            transform.localScale *= new Vector2(-1, 1);
+            MarioFlip = !MarioFlip;
         }
-        else if (horizontal < 0 && flip)
-        {
-            Flip();
-        }
-    }
-
-
-    void Flip()
-    {
-        flip = !flip;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
     }
 }
