@@ -5,12 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D Rb;
+    public Animator Animator;
     private bool MarioFlip = true;
     public float Speed = 10f;
     public float JumpForce = 10f;
     public float Horizontal;
     public float MarioJump;
-    public Animator Animator;
 
     void Start()
     {
