@@ -6,20 +6,25 @@ public class Player : MonoBehaviour
 {
     private Rigidbody2D Rb;
     public Animator Animator;
+
     private bool MarioFlip = true;
     public float Speed = 10f;
     public int JumpForce = 10;
     public float Horizontal;
-    public bool OnGround = false;
+
+    public bool OnGround;
     public LayerMask Ground;
     public Transform GroundCheck;
     private float GroundCheckRadius;
+
+    private Vector3 RespawnPoint;
 
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         GroundCheckRadius = GroundCheck.GetComponent<CircleCollider2D>().radius;
+        RespawnPoint = transform.position;
     }
 
     void Update()
@@ -51,5 +56,14 @@ public class Player : MonoBehaviour
     void CheckingGround()
     {
         OnGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, Ground);
+        Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "DeadZone")
+        {
+            transform.position = RespawnPoint;
+        }
     }
 }
