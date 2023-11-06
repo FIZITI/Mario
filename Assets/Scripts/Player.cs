@@ -65,5 +65,9 @@ public class Player : MonoBehaviour
         {
             transform.position = RespawnPoint;
         }
+        else if (collision.tag == "CheckPoint")
+        {
+            RespawnPoint = transform.position;
+        }
     }
 }
