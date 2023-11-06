@@ -51,12 +51,12 @@ public class Player : MonoBehaviour
         {
             Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
         }
+        Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));
     }
 
     void CheckingGround()
     {
         OnGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, Ground);
-        Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
