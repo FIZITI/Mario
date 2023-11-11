@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerInMenu : MonoBehaviour
 {
     private Rigidbody2D Rb;
     public Animator Animator;
-
-    private bool MarioFlip = true;
     public float Speed = 10f;
     public int JumpForce = 10;
     public float Horizontal;
@@ -29,28 +27,18 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Horizontal = Input.GetAxis("Horizontal");
+        Rb.velocity = new Vector2(Speed, Rb.velocity.y);
 
-        Rb.velocity = new Vector2(Horizontal * Speed, Rb.velocity.y);
-
-        Animator.SetFloat("moveX", Mathf.Abs(Horizontal));
-
-        if ((Horizontal > 0 && !MarioFlip) || (Horizontal < 0 && MarioFlip))
-        {
-            transform.localScale *= new Vector2(-1, 1);
-            MarioFlip = !MarioFlip;
-        }
-
-        Jump();
+        
         CheckingGround();
+        Animator.SetFloat("moveX", Mathf.Abs(Rb.velocity.x));
     }
 
     void Jump()
     {
-        if (OnGround && Input.GetKeyDown(KeyCode.Space))
+        if (OnGround)
         {
             Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
-/*            Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));*/
         }
     }
 
@@ -65,9 +53,9 @@ public class Player : MonoBehaviour
         {
             transform.position = RespawnPoint;
         }
-        else if (collision.tag == "CheckPoint")
+        else if (collision.tag == "JumpOnMenu")
         {
-            RespawnPoint = transform.position;
+            Jump();
         }
     }
 }
