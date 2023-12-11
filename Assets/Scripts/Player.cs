@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 
     private bool MarioFlip = true;
     public float Speed = 10f;
+    public float FastSpeed = 15f;
+    private float RealSpeed;
     public int JumpForce = 10;
     public float Horizontal;
 
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        RealSpeed = Speed;
         Rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         GroundCheckRadius = GroundCheck.GetComponent<CircleCollider2D>().radius;
@@ -31,7 +34,7 @@ public class Player : MonoBehaviour
     {
         Horizontal = Input.GetAxis("Horizontal");
 
-        Rb.velocity = new Vector2(Horizontal * Speed, Rb.velocity.y);
+        Rb.velocity = new Vector2(Horizontal * RealSpeed, Rb.velocity.y);
 
         Animator.SetFloat("moveX", Mathf.Abs(Horizontal));
 
@@ -43,6 +46,19 @@ public class Player : MonoBehaviour
 
         Jump();
         CheckingGround();
+        SpeedUp();
+    }
+
+    void SpeedUp()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            RealSpeed = FastSpeed;
+        }
+        else
+        {
+            RealSpeed = Speed;
+        }
     }
 
     void Jump()
@@ -50,7 +66,6 @@ public class Player : MonoBehaviour
         if (OnGround && Input.GetKeyDown(KeyCode.Space))
         {
             Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
-/*            Animator.SetFloat("moveY", Mathf.Abs(Rb.velocity.y));*/
         }
     }
 

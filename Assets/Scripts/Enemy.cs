@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _Damage;
     [SerializeField] private float _MoveDistance;
     [SerializeField] private float _Speed;
+    [SerializeField] private int _health;
+
     private bool movingLeft;
     private float LeftEdge;
     private float RightEdge;
@@ -42,6 +44,11 @@ public class Enemy : MonoBehaviour
                 movingLeft = true;
             }
         }
+
+        if (_health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,6 +56,10 @@ public class Enemy : MonoBehaviour
         if (collision.tag == "Player")
         {
             collision.GetComponent<Health>().TakeDamage(_Damage);
+        }
+        else if (collision.CompareTag("Bullet"))
+        {
+            _health -= 1;
         }
     }
 }
