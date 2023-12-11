@@ -14,12 +14,4 @@ public class Weapon : MonoBehaviour
             Instantiate(_bullet, _shootPosition.transform.position, transform.rotation);
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy"))
-        {
-            Destroy(gameObject);
-        }
-    }
 }
