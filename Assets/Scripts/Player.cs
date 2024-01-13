@@ -40,8 +40,8 @@ public class Player : MonoBehaviour
 
         if ((Horizontal > 0 && !MarioFlip) || (Horizontal < 0 && MarioFlip))
         {
-            transform.localScale *= new Vector2(-1, 1);
             MarioFlip = !MarioFlip;
+            transform.Rotate(0, 180, 0);
         }
 
         Jump();
@@ -83,6 +83,21 @@ public class Player : MonoBehaviour
         else if (collision.tag == "CheckPoint")
         {
             RespawnPoint = transform.position;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name.Equals("Platform"))
+        {
+            this.transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name.Equals("Platform"))
+        {
+            this.transform.parent = null;
         }
     }
 }
