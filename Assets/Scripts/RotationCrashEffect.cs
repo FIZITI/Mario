@@ -11,6 +11,6 @@ public class RotationCrashEffect : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, 0, Random.Range(20, 340) * _rotationSpeed * Time.deltaTime);
+        transform.Rotate(0, 0, 180 * _rotationSpeed * Time.deltaTime);
     }
 }
