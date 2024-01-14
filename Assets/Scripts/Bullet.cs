@@ -5,7 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    Rigidbody2D _rigidbody;
+    
+    private Rigidbody2D _rigidbody;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Ground"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Ground") || collision.CompareTag("CrashBlock"))
         {
             Destroy(gameObject);
         }
